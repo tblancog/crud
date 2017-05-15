@@ -52,7 +52,9 @@ class UserTest extends TestCase
                               ['name'=> 'My new Name',
                                'email'=> 'mynew@email.com']);
 
-      $this->seeInDatabase('users', ['name'=> 'My new Name',
-                                     'email'=> 'mynew@email.com'] );
+      $result = \App\User::find($user->id);
+
+      $this->assertEquals('My new Name', $result->name);
+      $this->assertEquals('mynew@email.com', $result->email);
     }
 }
