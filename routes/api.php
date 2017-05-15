@@ -22,3 +22,5 @@ Route::resource('user', 'UserController');
 
 // Decided to rename the name for the index route to user.list
 Route::get('index', 'UserController@index')->name('user.list');
+
+Route::post('user/{user}/upload', 'UserController@upload')->name('user.upload');

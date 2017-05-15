@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Http\Controllers\Input;
 
 class UserController extends Controller
 {
@@ -88,5 +89,30 @@ class UserController extends Controller
     public function destroy(User $user)
     {
       $user->delete();
+    }
+
+    /**
+    * Upload profile image for user
+    *
+    * @param \App\User $user
+    * @return \Illuminate\Http\Response
+    */
+    public function upload(Request $request, User $user)
+    {
+      $image = $request->file('image');
+
+      if($image->getMimeType() == "image/png" ||
+        $image->getMimeType() == "image/jpg") {
+
+        $filename = str_slug($user->name).".".$image->getClientOriginalExtension();
+        $path = $request->file('image')->storeAs(
+          'uploads', $filename
+        );
+        Storage::url($path);
+        $user->image = $path;
+        $user-save();
+      } else {
+        return Response::json(["error" => 1, "Invalid image type!! should be either png o jpg"]);
+      }
     }
 }
