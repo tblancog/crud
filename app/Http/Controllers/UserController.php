@@ -21,27 +21,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display an specific user by a given id.
      *
      * @param  \App\User  $user
@@ -53,17 +32,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -72,8 +40,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // $user->name = $request->name;
-        // $user->email = $request->email;
         $user->update([
           'name' => $request->name,
           'email' => $request->email,
@@ -108,11 +74,12 @@ class UserController extends Controller
         $path = $request->file('image')->storeAs(
           'uploads', $filename
         );
-        Storage::url($path);
-        $user->image = $path;
-        $user-save();
+        \Storage::url($path);
+        $user->update(['image' => url($path)]);
+
       } else {
-        return Response::json(["error" => 1, "Invalid image type!! should be either png o jpg"]);
+
+        return \Response::json(["error" => 1, "message"=> "Invalid image type!! should be either png o jpg"]);
       }
     }
 }
