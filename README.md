@@ -1,5 +1,5 @@
 # User Profile
-Small laravel project to show some CRUD operations on an user
+Small laravel project to demonstrate some CRUD operations on an user
 - Show user details
 - Modify an user
 - Upload a picture
